@@ -317,3 +317,63 @@ VALUES (null, '안중근', '남성', 27);
 INSERT INTO user_check
 VALUES (null, '유관순', '여', 17);
 # [HY000][3819] Check constraint 'user_check_chk_2' is violated.
+
+# =======================================================
+# alter 테이블 수정
+-- alter table 테이블명 [서브명령어] ....
+-- - add 컬럼/제약조건 추가
+-- - drop 컬럼/제약조건 삭제
+-- - modify 컬럼 자료형/not null/기본값 변경
+-- - change 컬럼명 변경
+-- - rename 테이블명 변경
+
+select * from product;
+
+# 컬럼 추가
+alter table product
+add description varchar(255)
+not null
+default '설명 없음'
+after price;
+
+select * from product;
+
+# 컬럼 삭제
+alter table product
+drop description;
+
+select * from product;
+
+# 제약 조건 추가
+alter table product
+add unique (name);
+
+desc product;
+
+# 제약 조건 삭제(name unique)
+alter table product
+drop constraint name;
+
+select * from product;
+
+
+# not null은 modify만 가능
+desc product;
+
+alter table product
+modify name varchar(100) null;
+
+desc product;
+
+# 컬럼명 변경
+alter table product
+change name product_name varchar(100) not null;
+
+desc product;
+
+# ==============================================
+### DROP : 버림
+DROP TABLE IF EXISTS product;
+
+desc product;
+# [42S02][1146] Table 'menudb.product' doesn't exist
